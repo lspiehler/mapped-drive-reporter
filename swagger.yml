@@ -1,0 +1,88 @@
+swagger: "2.0"
+info:
+  description: "This is an API server for updating a database with a list of printers associated with an endpoint. The vbs script for reporting printers to the API can be downloaded here <a href=\"/printer_report_API.vbs\">printer_report_API.vbs</a>"
+  version: "1.0.0"
+  title: "HTTP Post API Server"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "lyas.spiehler@sapphirehealth.org"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "httpreport.lcmchealth.org"
+basePath: "/"
+tags:
+- name: "mappeddrives"
+  description: "report drive mappings"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+paths:
+  /mappeddrives:
+    post:
+      tags:
+      - "mappeddrives"
+      summary: "Update mapped drive database"
+      description: ""
+      operationId: "updateMappedDrives"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List of printers associated with an endpoint"
+        required: true
+        schema:
+          $ref: "#/definitions/Request"
+      responses:
+        "405":
+          description: "Invalid input"
+definitions:
+  Request:
+    type: "object"
+    properties:
+      COMPUTERNAME:
+        type: "string"
+        example: "COMPUTER-Test"
+      USERNAME:
+        type: "string"
+        example: "User-Test"
+      USERDOMAIN:
+        type: "string"
+        example: "TESTDOMAIN"
+      site:
+        type: "string"
+        example: "TEST"
+      computerdn:
+        type: "string"
+        example: "CN=COMPUTER-Test,OU=Test,DC=lcmchealth,DC=org"
+      userdn:
+        type: "string"
+        example: "CN=User-Test,OU=Test,DC=lcmchealth,DC=org"
+      default:
+        type: "string"
+        example: "\\\\ntprintserver01.touro.com\\ED"
+      printers:
+        type: "array"
+        items:
+          type: "string"
+        example:
+          - "\\\\ntprintserver01.touro.com\\ED"
+          - "\\\\ntprintserver02.touro.com\\ED"
+  Response:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
