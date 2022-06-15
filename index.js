@@ -6,13 +6,14 @@ const YAML = require('yamljs');
 const swaggerDocument = YAML.load('swagger.yml');
 const requestIp = require('request-ip');
 app.use(requestIp.mw())
+const config = require('./config');
 
 app.use(express.urlencoded({extended: true})); 
 //app.use(express.json());
 
 routes(app);
 
-var server = app.listen(3001, function () {
+var server = app.listen(config.LISTENPORT, function () {
     console.log("app running on port.", server.address().port);
 });
 
