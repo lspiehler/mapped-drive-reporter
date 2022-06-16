@@ -65,10 +65,18 @@ var appRouter = function (app) {
             res.status(200).send('OK')
             return;*/
             if(sqldrivemappings.length > 0) {
-                let params = {
-                    sql: "DELETE FROM `drivemappings` WHERE `computername` = ? AND `username` = ?",
-                    values: [body.COMPUTERNAME, body.USERNAME]
+                let params = {}
+                if(body.COMPUTERNAME.toUpperCase().indexOf("CTX") == 0) {
+                    params.sql = "DELETE FROM `drivemappings` WHERE `computername` LIKE ? AND `username` = ?",
+                    params.values = ['CTX%', body.USERNAME]
+                } else if(body.COMPUTERNAME.toUpperCase().indexOf("VDI") == 0) {
+                    params.sql = "DELETE FROM `drivemappings` WHERE `computername` LIKE ? AND `username` = ?",
+                    params.values = ['VDI%', body.USERNAME]
+                } else {
+                    params.sql = "DELETE FROM `drivemappings` WHERE `computername` = ? AND `username` = ?",
+                    params.values = [body.COMPUTERNAME, body.USERNAME]
                 }
+                //console.log(params)
                 database.query(params, function(err, sql) {
                     //console.log(err);
                     //console.log(sql);
