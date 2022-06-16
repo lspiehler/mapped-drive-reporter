@@ -1,4 +1,4 @@
-FROM docker.io/node:14.17-alpine
+FROM docker.io/node:lts-alpine3.16
 LABEL maintainer Lyas Spiehler
 
 RUN mkdir -p /var/node/mapped-drive-reporter
