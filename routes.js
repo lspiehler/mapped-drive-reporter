@@ -59,7 +59,7 @@ var appRouter = function (app) {
                     console.error('Invalid printer sent by ' + body.COMPUTERNAME + ': ' + body.printers[i] )
                     continue;
                 }*/
-                sqldrivemappings.push([body.COMPUTERNAME, body.USERNAME, body.USERDOMAIN, body.site, 'OU=' + userou.join(',OU='), 'OU=' + computerou.join(',OU='), req.clientIp, body.mappings[i].Letter, body.mappings[i].VolumeName, body.mappings[i].Server, body.mappings[i].Path, body.mappings[i].FreeSpace, body.mappings[i].Size, body.mappings[i].Access, body.mappings[i].Availability, body.mappings[i].StatusInfo, body.mappings[i].Status]);
+                sqldrivemappings.push([body.COMPUTERNAME, body.USERNAME, body.USERDOMAIN, body.site, 'OU=' + userou.join(',OU='), 'OU=' + computerou.join(',OU='), req.clientIp, body.mappings[i].Letter, body.mappings[i].VolumeName, body.mappings[i].Server, body.mappings[i].Server.split(".")[0], body.mappings[i].Path, body.mappings[i].FreeSpace, body.mappings[i].Size, body.mappings[i].Access, body.mappings[i].Availability, body.mappings[i].StatusInfo, body.mappings[i].Status]);
             }
             /*console.log(sqldrivemappings)
             res.status(200).send('OK')
@@ -86,7 +86,7 @@ var appRouter = function (app) {
                         res.status(500).json({result: "error", message: err});
                     } else {
                         let params = {
-                            sql: "INSERT INTO `drivemappings` (`computername`, `username`,  `userdomain`, `site`, `userou`, `computerou`, `ip`, `letter`, `volumename`, `server`, `path`, `freespace`, `size`, `access`, `availability`, `statusinfo`, `status`) VALUES ?",
+                            sql: "INSERT INTO `drivemappings` (`computername`, `username`,  `userdomain`, `site`, `userou`, `computerou`, `ip`, `letter`, `volumename`, `server`, `hostname`, `path`, `freespace`, `size`, `access`, `availability`, `statusinfo`, `status`) VALUES ?",
                             values: [sqldrivemappings]
                         }
                         database.query(params, function(err, sql) {
