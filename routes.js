@@ -72,6 +72,9 @@ var appRouter = function (app) {
                 } else if(body.COMPUTERNAME.toUpperCase().indexOf("VDI") == 0) {
                     params.sql = "DELETE FROM `drivemappings` WHERE `computername` LIKE ? AND `username` = ?",
                     params.values = ['VDI%', body.USERNAME]
+                } else if(body.COMPUTERNAME.toUpperCase().indexOf("CVDI") == 0) {
+                    params.sql = "DELETE FROM `drivemappings` WHERE `computername` LIKE ? AND `username` = ?",
+                    params.values = ['CVDI%', body.USERNAME]
                 } else {
                     params.sql = "DELETE FROM `drivemappings` WHERE `computername` = ? AND `username` = ?",
                     params.values = [body.COMPUTERNAME, body.USERNAME]
