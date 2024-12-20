@@ -6,11 +6,18 @@ var pool;
 module.exports = {
 	getPool: function () {
 		if (pool) return pool;
+		let ssl = false;
+		if(config.DBSSL != false) {
+			ssl = {
+				rejectUnaithorized: false
+			}
+		}
 		pool = mysql.createPool({
 			host     : config.DBHOST,
 			user     : config.DBUSER,
 			password : config.DBPASS,
 			database : config.DBNAME,
+			ssl: ssl,
 			charset : 'utf8mb4',
 			port: config.DBPORT,
 			typeCast: function castField(field, useDefaultTypeCasting) {
