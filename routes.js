@@ -14,7 +14,7 @@ var appRouter = function (app) {
         var data = [];
 
         let ip = req.clientIp;
-        let splitip = ip.split(",")
+        let splitip = ip.split(":")
         let clientIp = splitip[0];
         if(splitip.length > 1) {
             clientIp = splitip[splitip.length - 1];
