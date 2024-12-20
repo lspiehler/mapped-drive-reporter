@@ -35,7 +35,7 @@ var appRouter = function (app) {
         req.on('end', function() {
             let body;
             try {
-                body = JSON.parse(data.toString());
+                body = JSON.parse(Buffer.concat(data).toString());
                 //console.log('Record received ' + Date());
                 //console.log(util.inspect(body, false, null, true /* enable colors */))
                 //res.status(200).send('OK')
