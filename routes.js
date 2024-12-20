@@ -13,6 +13,13 @@ var appRouter = function (app) {
     app.post("/mappeddrives", function(req, res) {
         var data = [];
 
+        let ip = req.clientIp;
+        let splitip = ip.split(",")
+        let clientIp = splitip[0];
+        if(splitip.length > 1) {
+            clientIp = splitip[splitip.length - 1];
+        }
+
         req.on('data', function(chunk) {
             //console.log('here');
             data.push(chunk);
@@ -34,7 +41,7 @@ var appRouter = function (app) {
                 //res.status(200).send('OK')
                 //return;
             } catch(e) {
-                console.log("JSON parse error. Please examine post data from " + req.clientIp + ":");
+                console.log("JSON parse error. Please examine post data from " + clientIp + ":");
                 console.log(data.toString());
                 res.status(200).send('OK')
                 return;
@@ -59,7 +66,7 @@ var appRouter = function (app) {
                     console.error('Invalid printer sent by ' + body.COMPUTERNAME + ': ' + body.printers[i] )
                     continue;
                 }*/
-                sqldrivemappings.push([body.COMPUTERNAME, body.USERNAME, body.USERDOMAIN, body.site, 'OU=' + userou.join(',OU='), 'OU=' + computerou.join(',OU='), req.clientIp, body.mappings[i].Letter, body.mappings[i].VolumeName, body.mappings[i].Server, body.mappings[i].Server.split(".")[0], body.mappings[i].Path, body.mappings[i].FreeSpace, body.mappings[i].Size, body.mappings[i].Access, body.mappings[i].Availability, body.mappings[i].StatusInfo, body.mappings[i].Status]);
+                sqldrivemappings.push([body.COMPUTERNAME, body.USERNAME, body.USERDOMAIN, body.site, 'OU=' + userou.join(',OU='), 'OU=' + computerou.join(',OU='), clientIp, body.mappings[i].Letter, body.mappings[i].VolumeName, body.mappings[i].Server, body.mappings[i].Server.split(".")[0], body.mappings[i].Path, body.mappings[i].FreeSpace, body.mappings[i].Size, body.mappings[i].Access, body.mappings[i].Availability, body.mappings[i].StatusInfo, body.mappings[i].Status]);
             }
             /*console.log(sqldrivemappings)
             res.status(200).send('OK')
@@ -106,7 +113,7 @@ var appRouter = function (app) {
                     }
                 });
             } else {
-                console.log("Empty list of drive mappings sent. Please examine post data from " + req.clientIp + ":");
+                console.log("Empty list of drive mappings sent. Please examine post data from " + clientIp + ":");
                 console.log(data.toString());
             }
         });
